@@ -57,14 +57,30 @@ fase(Materia, Fase) :- dados(Fase, Materia, _, _).
 % T1A Questão 3
 requisitos(Materia, Requisitos) :- dados(_, Materia, Requisitos, _).
 
-% T1A Questão 4.1
+% T1A Questão 4
 necessitam(Requisito, Bag) :- findall(Materia, (requisitos(Materia, Requisitos), member(Requisito, Requisitos)), Bag).
 
-% T1A Questão 4.2
-
+is_req(D, PR) :- requisitos(D, Req), member(PR, Req).
 
 % T1B Questão 1
 nomecompleto(Materia, Nome) :- dados(_, Materia, _, Nome).
 
-precomum(D1, D2, PR) :- findall(X, (requisitos(D1, R1), requisitos(D2, R2), nth0(N, R1, X), member(X, R2)), PR).
+% T1B Questão 2
+precomum(D1, D2, PR) :- is_req(D1, PR), is_req(D2, PR), D1 @< D2.
 
+% T1B Questão 3
+prepre(D, PR) :- is_req(D, X), is_req(X, PR).
+
+% T1B Questão 4
+saopre(F, PR) :- fase(PR, F), necessitam(PR, Reqs), Reqs \= [].
+
+% T1B Questão 5
+tempre(F, PR) :- fase(PR, F), requisitos(PR, Reqs), Reqs \= [].
+
+% T1B Questão 6
+temprecomumsaopre(F, D1, D2) :- precomum(D1, D2, _), saopre(F, D1), saopre(F, D2).
+
+% T1B Questão 7
+% Disciplina (D) que está a em uma determinada fase (F)
+% e tem não pré-requisito(s) para ser cursada.
+proposta(F, D) :- fase(D, F), requisitos(D, Reqs), Reqs = [].
