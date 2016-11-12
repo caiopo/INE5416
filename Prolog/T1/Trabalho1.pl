@@ -84,3 +84,46 @@ temprecomumsaopre(F, D1, D2) :- precomum(D1, D2, _), saopre(F, D1), saopre(F, D2
 % Disciplina (D) que está a em uma determinada fase (F)
 % e tem não pré-requisito(s) para ser cursada.
 proposta(F, D) :- fase(D, F), requisitos(D, Reqs), Reqs = [].
+
+% T1C Questão 1
+nfase(F, N) :- findall(M, fase(M, F), Bag), length(Bag, N).
+
+% T1C Questão 2
+ncurso(N) :- nfase(_, N).
+
+% T1C Questão 3
+ntempre(N) :- findall(M, (requisitos(M, R), R \= []), Bag), length(Bag, N).
+
+% T1C Questão 4
+nsaopre(N) :- setof(M, Rs^X^(requisitos(X, Rs), member(M, Rs)), Bag), length(Bag, N).
+
+% T1C Questão 5
+npre(D, N) :- requisitos(D, R), length(R, N).
+
+% T1C Questão 6
+maispre(D) :- findall(X, npre(_, X), L), max_list(L, Z), npre(D, Z).
+
+% T1C Questão 7
+npos(D, N) :- necessitam(D, R), length(R, N).
+
+% T1C Questão 8
+maispos2(D, N) :- bagof(Y, (requisitos(Y, W), member(D, W)), L), length(L, N).
+maispos(D) :- findall(X, maispos2(_, X), L), max_list(L, Z), maispos2(D, Z).
+
+% T1C Questão 9
+seq(X, []) :- \+ is_req(_, X).
+seq(X, [Y|L]) :- is_req(Y, X), seq(Y, L).
+
+maiorcadeia(C) :-
+    findall([N, [X|PR]], (seq(X,PR), length(PR, N)), L),
+    sort(L, K),
+    last(K, KL),
+    nth0(1, KL, BC),
+    bagof([Y|PR1],
+          (seq(Y, PR1), length(PR1, N1), length(BC, N2), N1=:=(N2-1)),
+          CL),
+    member(C, CL).
+
+% T1C Questão 10
+% Lista de disciplinas (D) que fazem parte da menor fase
+extremo(D) :- findall(X, fase(_, X), L), min_list(L, F), findall(M, fase(M, F), D).
