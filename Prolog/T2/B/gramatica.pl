@@ -48,6 +48,7 @@ comando --> [repita], [N], bloco_inicio, programa(N), bloco_fim.
 comando --> [un],  { usenada }.
 comando --> [ul],  { uselapis }.
 comando --> [tartaruga],  { tartaruga }.
+comando --> [triangulo], [L],  { atom_number(L, X), triangulo(X) }.
 
 
 %---------------------------------------------------
