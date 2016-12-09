@@ -23,7 +23,7 @@ border(Sin, Sout) :-
     shape(Sin, H, W),
     zeros((H,W), SZeros),
     findall((ZX, ZY, Value),
-        (member((ZX, ZY, ZV), SZeros),
+        (member((ZX, ZY, _), SZeros),
         (member((ZX, ZY, PV), SinB) -> Value = PV; Value = 0)),
     Sout).
 

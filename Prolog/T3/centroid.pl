@@ -1,6 +1,6 @@
 :- consult('img.pl').
 
-centroidImg(Filename, X, Y) :- 
+centroidImg(Filename, X, Y) :-
     readPGM(Filename, M), coord(M, L),
     centroidList(L, X, Y).
 
@@ -15,4 +15,3 @@ calculateSumXY([(Xs, Ys)|L], (X, Y), (A, B)) :-
     Xsum is X + Xs,
     Ysum is Y + Ys,
     calculateSumXY(L, (Xsum, Ysum), (A, B)).
-    

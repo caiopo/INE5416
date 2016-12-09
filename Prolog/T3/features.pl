@@ -6,7 +6,7 @@ mean(L, M) :-
     length(L, Len),
     M is Sum / Len.
 
-sd(L, SD) :-
+sd_list(L, SD) :-
     mean(L, Mean),
     length(L, Len),
     findall(EF, (member(E, L), EF is ((E - Mean) ** 2)), Bag),
@@ -19,19 +19,20 @@ distance((PX, PY), (CX, CY), D) :-
     Distance is X**2 + Y**2,
     D is sqrt(Distance).
 
-averageDistanceImg(Filename, AvgD) :-
-    readPGM(Filename, M), coord(M, L), find_border(L, Lborder),
-    centroidList(L, X, Y), averageDistance(Lborder, (X, Y), AvgD).
-
 distances(Lborder, (CX, CY), L) :-
     findall(D, (member((X, Y, _), Lborder),
                 distance((X, Y), (CX, CY), D)), L).
 
-averageDistance(Lborder, (CX, CY), AvgD) :-
+averageDistanceImg(Filename, AvgD) :-
+    readPGM(Filename, M), coord(M, S), averageDistance(S, AvgD).
+
+averageDistance(S, AvgD) :-
+    findBorder(S, Lborder),
+    centroidList(S, CX, CY),
     distances(Lborder, (CX, CY), AuxL),
     mean(AuxL, AvgD).
 
 sdImg(Filename, Sd) :-
-    readPGM(Filename, M), coord(M, L), find_border(L, Lborder),
+    readPGM(Filename, M), coord(M, L), findBorder(L, Lborder),
     centroidList(L, X, Y), distances(Lborder, (X, Y), Distances),
-    sd(Distances, Sd).
+    sd_list(Distances, Sd).
