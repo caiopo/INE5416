@@ -1,6 +1,6 @@
 :- consult('img.pl').
 
-is_border(S, (PX, PY, PV)) :-
+isBorder(S, (PX, PY, PV)) :-
     PV = 1,
     n4(S, (PX, PY, PV), N),
     findall((NX, NY, NV),
@@ -10,16 +10,16 @@ is_border(S, (PX, PY, PV)) :-
     length(Bag, LenBag),
     LenBag > 0.
 
-find_border(Sin, Sout) :-
+findBorder(Sin, Sout) :-
     length(Sin, Length),
     findall((PX, PY, 1),
         (between(1, Length, I),
         nth1(I, Sin, (PX, PY, PV)),
-        is_border(Sin, (PX, PY, PV))),
+        isBorder(Sin, (PX, PY, PV))),
     Sout).
 
 border(Sin, Sout) :-
-    find_border(Sin, SinB),
+    findBorder(Sin, SinB),
     shape(Sin, H, W),
     zeros((H,W), SZeros),
     findall((ZX, ZY, Value),
@@ -27,7 +27,7 @@ border(Sin, Sout) :-
         (member((ZX, ZY, PV), SinB) -> Value = PV; Value = 0)),
     Sout).
 
-border_PGM(FileIn, FileOut) :-
+borderPGM(FileIn, FileOut) :-
     readPGM(FileIn, M),
     coord(M, S),
     border(S, Borders),
