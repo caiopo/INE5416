@@ -1,0 +1,59 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage[portuguese]{babel}
+
+\title{Paradigmas de Programação - Trabalho 3}
+\author{Caio Pereira Oliveira e Salomão Rodrigues Jacinto}
+\date{Dezembro de 2016}
+
+\usepackage{verbatim}
+
+\begin{document}
+
+\maketitle
+
+\section{Centróide}
+
+\paragraph{}
+O predicado recebe a imagem e retorna a posição do centróide, para isso ele
+verifica todos os pontos que possuem valor 1 , ou seja, que são brancos na
+imagem, calcula a soma de X e de Y destes pontos e divide pelo número de pontos
+encontrados.
+\paragraph{}
+A soma é feita através do predicado calculateSum, o qual recebe uma lista de
+pontos e vai acumulando a soma até a lista estar vazia.
+
+\begin{verbatim}
+?- centroidImg('img1.pgm', X, Y).
+X = 17.5,
+Y = 18.5.
+\end{verbatim}
+
+\section{Bordas}
+
+\begin{verbatim}
+\end{verbatim}
+
+\section{Características}
+
+\paragraph{}
+As características retiradas do desenho são a média das distâncias dos pontos da
+borda até o centróide e o desvio padrão destas distâncias. O predicado recebe a
+imagem e utilizando os predicados dos itens anteriores de cálculo da borda e do
+centróide verifica a distância de cada ponto da borda até o centróide calculando
+a média. Essa média é a mesma utilizada para o cálculo do desvio padrão.
+
+\begin{verbatim}
+?- averageDistanceImg('img1.pgm', AvgD).
+AvgD = 13.767007120492341.
+
+?- standardDeviationImg('img1.pgm', Sd).
+Sd = 0.26532033528755467.
+\end{verbatim}
+
+\section{Detector de Círculos}
+
+\begin{verbatim}
+\end{verbatim}
+
+\end{document}
