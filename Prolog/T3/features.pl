@@ -1,16 +1,31 @@
 :- consult('centroid.pl').
 
+mean(L, M) :-
+    sum_list(L, Sum),
+    length(L, Len),
+    M is Sum / Len.
+
+sd(L, Mean, SD) :-
+    length(L, Len),
+    findall(EF, (member(E, L), EF is ((E - Mean) ** 2)), Bag),
+    sum_list(Bag, Sum),
+    SD is sqrt(Sum / (Len - 1)).
+
+sd(L, SD) :-
+    mean(L, Mean),
+    sd(L, Mean, SD).
+
 distance((PX, PY), (CX, CY), D) :-
     X is abs(PX - CX),
     Y is abs(PY - CY),
     Distance is X**2 + Y**2,
     D is sqrt(Distance).
 
-averageDistanceImg(Filename, AvgD) :- 
-    readPGM(Filename, M), coord(M, L), find_border(L, Lborder), 
+averageDistanceImg(Filename, AvgD) :-
+    readPGM(Filename, M), coord(M, L), find_border(L, Lborder),
     centroidList(L, X, Y), averageDistance(Lborder, (X, Y), AvgD).
 
 averageDistance(Lborder, (CX, CY), AvgD) :-
-    findall(D, (member((X, Y, _), Lborder), 
+    findall(D, (member((X, Y, _), Lborder),
                 distance((X, Y), (CX, CY), D)), AuxL),
     length(AuxL, Len), sum_list(AuxL, Sum), AvgD is Sum / Len.
