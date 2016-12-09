@@ -32,9 +32,9 @@ standardDeviationList(L, SD) :-
     sum_list(Bag, Sum),
     SD is sqrt(Sum / (Len - 1)).
 
-standardDeviation(S, SD)
+standardDeviation(S, SD) :-
     findBorder(S, SBorder),
-    centroidList(L, X, Y), distances(SBorder, (X, Y), Distances),
+    centroid(S, X, Y), distances(SBorder, (X, Y), Distances),
     standardDeviation(Distances, SD).
 
 standardDeviationImg(Filename, SD) :-
