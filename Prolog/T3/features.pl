@@ -6,15 +6,12 @@ mean(L, M) :-
     length(L, Len),
     M is Sum / Len.
 
-sd(L, Mean, SD) :-
+sd(L, SD) :-
+    mean(L, Mean),
     length(L, Len),
     findall(EF, (member(E, L), EF is ((E - Mean) ** 2)), Bag),
     sum_list(Bag, Sum),
     SD is sqrt(Sum / (Len - 1)).
-
-sd(L, SD) :-
-    mean(L, Mean),
-    sd(L, Mean, SD).
 
 distance((PX, PY), (CX, CY), D) :-
     X is abs(PX - CX),
@@ -32,5 +29,5 @@ distances(Lborder, (CX, CY), L) :-
 
 averageDistance(Lborder, (CX, CY), AvgD) :-
     distances(Lborder, (CX, CY), AuxL),
-    length(AuxL, Len), sum_list(AuxL, Sum), AvgD is Sum / Len.
+    mean(AuxL, AvgD).
 
