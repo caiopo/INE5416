@@ -1,7 +1,7 @@
 :- consult('img.pl').
 
 isBorder(S, (PX, PY, PV)) :-
-    PV = 1,
+    PV =:= 1,
     n4(S, (PX, PY, PV), N),
     findall((NX, NY, NV),
         (member((NX, NY, NV), N),

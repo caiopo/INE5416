@@ -16,13 +16,6 @@ distances(Lborder, (CX, CY), L) :-
     findall(D, (member((X, Y, _), Lborder),
                 distance((X, Y), (CX, CY), D)), L).
 
-sd_list(L, SD) :-
-    mean(L, Mean),
-    length(L, Len),
-    findall(EF, (member(E, L), EF is ((E - Mean) ** 2)), Bag),
-    sum_list(Bag, Sum),
-    SD is sqrt(Sum / (Len - 1)).
-
 averageDistance(S, AvgD) :-
     findBorder(S, Lborder),
     centroidList(S, CX, CY),
@@ -32,7 +25,17 @@ averageDistance(S, AvgD) :-
 averageDistanceImg(Filename, AvgD) :-
     readPGM(Filename, M), coord(M, S), averageDistance(S, AvgD).
 
-sdImg(Filename, Sd) :-
-    readPGM(Filename, M), coord(M, L), findBorder(L, Lborder),
-    centroidList(L, X, Y), distances(Lborder, (X, Y), Distances),
-    sd_list(Distances, Sd).
+standardDeviationList(L, SD) :-
+    mean(L, Mean),
+    length(L, Len),
+    findall(EF, (member(E, L), EF is ((E - Mean) ** 2)), Bag),
+    sum_list(Bag, Sum),
+    SD is sqrt(Sum / (Len - 1)).
+
+standardDeviation(S, SD)
+    findBorder(S, SBorder),
+    centroidList(L, X, Y), distances(SBorder, (X, Y), Distances),
+    standardDeviation(Distances, SD).
+
+standardDeviationImg(Filename, SD) :-
+    readPGM(Filename, M), coord(M, S), standardDeviation(S, SD).
