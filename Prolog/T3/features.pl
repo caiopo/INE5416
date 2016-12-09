@@ -31,3 +31,7 @@ averageDistance(Lborder, (CX, CY), AvgD) :-
     distances(Lborder, (CX, CY), AuxL),
     mean(AuxL, AvgD).
 
+sdImg(Filename, Sd) :-
+    readPGM(Filename, M), coord(M, L), find_border(L, Lborder),
+    centroidList(L, X, Y), distances(Lborder, (X, Y), Distances),
+    sd(Distances, Sd).
