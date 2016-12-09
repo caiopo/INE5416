@@ -17,3 +17,19 @@ find_border(Sin, Sout) :-
         nth1(I, Sin, (PX, PY, PV)),
         is_border(Sin, (PX, PY, PV))),
     Sout).
+
+border(Sin, Sout) :-
+    find_border(Sin, SinB),
+    shape(Sin, H, W),
+    zeros((H,W), SZeros),
+    findall((ZX, ZY, Value),
+        (member((ZX, ZY, ZV), SZeros),
+        (member((ZX, ZY, PV), SinB) -> Value = PV; Value = 0)),
+    Sout).
+
+border_PGM(FileIn, FileOut) :-
+    readPGM(FileIn, M),
+    coord(M, S),
+    border(S, Borders),
+    coord2matrix(Borders, MBorders),
+    writePGM(FileOut, MBorders).
