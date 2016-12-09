@@ -9,9 +9,7 @@ updateMaxSD(SD) :-
     assert(maxCircleSD(SD)).
 
 isCircleImg(Filename) :-
-    readPGM(Filename, M),
-    coord(M, S),
-    standardDeviation(S, SD),
+    standardDeviationImg(Filename, SD),
     maxCircleSD(MaxSD),
     write(Filename),
     ((SD =< MaxSD) ->
