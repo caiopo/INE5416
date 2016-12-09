@@ -35,7 +35,7 @@ standardDeviationList(L, SD) :-
 standardDeviation(S, SD) :-
     findBorder(S, SBorder),
     centroid(S, X, Y), distances(SBorder, (X, Y), Distances),
-    standardDeviation(Distances, SD).
+    standardDeviationList(Distances, SD).
 
 standardDeviationImg(Filename, SD) :-
     readPGM(Filename, M), coord(M, S), standardDeviation(S, SD).

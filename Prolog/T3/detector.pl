@@ -15,10 +15,13 @@ isCircleImg(Filename) :-
     maxCircleSD(MaxSD),
     write(Filename),
     ((SD =< MaxSD) ->
-        writeln(' is a circle');
-        writeln(' is not a circle')),
+        writeln(' is a circle'), Circle = 'True';
+        writeln(' is not a circle'), Circle = 'False'),
     viewPGM(Filename),
-    writeln('Am i correct? y/n'),
+    writeln('Am I correct? y/n'),
     read(Answer),
-    ((Answer = 'n') ->
-        updateMaxSD(SD)).
+    ((Circle = 'True', Answer = 'n') ->
+        NewSD is MaxSD - 0.5,
+        updateMaxSD(NewSD); true),
+    ((Circle = 'False', Answer = 'n') ->
+        updateMaxSD(SD); true).
